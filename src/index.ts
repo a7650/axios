@@ -1,32 +1,14 @@
-import { AxiosRequestConfig, AxiosPromise } from './types/index'
-import xhr from './xhr'
-import { buildURL } from "./helpers/url"
-import { transformRequest, transformResponse } from './helpers/data'
-import { processHeaders } from './helpers/headers'
+import { extend } from './helpers/utils'
+import { AxiosInstance } from './types/index'
+import Axios from './core/Axios'
 
-
-export default function axios(config: AxiosRequestConfig): AxiosPromise {
-    processConfig(config)
-    return xhr(config).then(res => {
-        return transformResponse(res)
-    })
+function createInstance(): AxiosInstance {
+  const context = new Axios()
+  const instance = Axios.prototype.request.bind(context)
+  extend(instance, context)
+  return instance as AxiosInstance
 }
 
-function processConfig(config: AxiosRequestConfig): void {
-    config.url = transformURL(config)
-    config.headers = transformHeaders(config)
-    config.data = transformRequestData(config)
-}
+const axios = createInstance()
 
-function transformURL(config: AxiosRequestConfig): string {
-    return buildURL(config.url, config.params)
-}
-
-function transformRequestData(config: AxiosRequestConfig): any {
-    return transformRequest(config.data)
-}
-
-function transformHeaders(config: AxiosRequestConfig): any {
-    let { data, headers = {} } = config
-    return processHeaders(headers, data)
-}
+export default axios
