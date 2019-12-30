@@ -24,6 +24,16 @@ export interface AxiosRequestConfig {
   timeout?: number
 }
 
+export interface AxiosRequestConfigWithoutUrl {
+  url?: string
+  method?: Method
+  data?: any
+  params?: any
+  headers?: any
+  responseType?: XMLHttpRequestResponseType
+  timeout?: number
+}
+
 export interface AxiosResponse {
   data: any
   status: number
@@ -63,4 +73,5 @@ export interface Axios {
 
 export interface AxiosInstance extends Axios {
   (config: AxiosRequestConfig): AxiosPromise
+  (url: string, config?: AxiosRequestConfigWithoutUrl): AxiosPromise
 }
