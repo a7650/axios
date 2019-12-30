@@ -31,8 +31,8 @@ router.get('/simple/get', function (req, res) {
     })
 })
 router.post('/simple/post', function (req, res) {
-    console.log(req)
-    // res.json(req.body)
+    // console.log(req)
+    res.json(req.body)
 })
 
 app.use(router)

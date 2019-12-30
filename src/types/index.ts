@@ -69,9 +69,30 @@ export interface Axios {
   put(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
 
   patch(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
+
+  interceptors: Interceptors
 }
 
 export interface AxiosInstance extends Axios {
   (config: AxiosRequestConfig): AxiosPromise
   (url: string, config?: AxiosRequestConfigWithoutUrl): AxiosPromise
+}
+
+export interface AxiosInterceptorManager<T> {
+  use(resolve: ResolvedFn<T>, reject?: RejectedFn): number
+  eject(id: number): void
+  forEach(fn: any): void
+}
+
+export interface ResolvedFn<T = any> {
+  (val: T): T | Promise<T>
+}
+
+export interface RejectedFn {
+  (error: any): any
+}
+
+export interface Interceptors {
+  request: AxiosInterceptorManager<AxiosRequestConfig>
+  response: AxiosInterceptorManager<AxiosResponse>
 }
