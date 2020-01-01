@@ -2,7 +2,7 @@ export type Method =
   | 'get'
   | 'GET'
   | 'post'
-  | 'POSt'
+  | 'POST'
   | 'delete'
   | 'DELETE'
   | 'head'
@@ -22,6 +22,8 @@ export interface AxiosRequestConfig {
   headers?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
+  transformRequest?: AxiosTransformer | AxiosTransformer[]
+  transformResponse?: AxiosTransformer | AxiosTransformer[]
 }
 
 export interface AxiosRequestConfigWithoutUrl {
@@ -32,6 +34,13 @@ export interface AxiosRequestConfigWithoutUrl {
   headers?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
+  [propertyName: string]: any
+  transformRequest?: AxiosTransformer | AxiosTransformer[]
+  transformResponse?: AxiosTransformer | AxiosTransformer[]
+}
+
+export interface AxiosTransformer {
+  (data: any, headers?: any): any
 }
 
 export interface AxiosResponse {
@@ -71,6 +80,8 @@ export interface Axios {
   patch(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
 
   interceptors: Interceptors
+
+  defaults: AxiosRequestConfigWithoutUrl
 }
 
 export interface AxiosInstance extends Axios {
@@ -95,4 +106,8 @@ export interface RejectedFn {
 export interface Interceptors {
   request: AxiosInterceptorManager<AxiosRequestConfig>
   response: AxiosInterceptorManager<AxiosResponse>
+}
+
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosRequestConfigWithoutUrl): AxiosInstance
 }
