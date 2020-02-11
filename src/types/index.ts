@@ -14,32 +14,28 @@ export type Method =
   | 'patch'
   | 'PATCH'
 
-export interface AxiosRequestConfig {
-  url: string
+interface AxiosRequestConfigBase {
   method?: Method
   data?: any
   params?: any
   headers?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
-  [propertyName: string]: any
   transformRequest?: AxiosTransformer | AxiosTransformer[]
   transformResponse?: AxiosTransformer | AxiosTransformer[]
   cancelToken?: CancelToken
+  withCredentials?: boolean
+  xsrfCookieName?: string
+  xsrfHeaderName?: string
+  [propertyName: string]: any
 }
 
-export interface AxiosRequestConfigWithoutUrl {
+export interface AxiosRequestConfig extends AxiosRequestConfigBase {
+  url: string
+}
+
+export interface AxiosRequestConfigWithoutUrl extends AxiosRequestConfigBase {
   url?: string
-  method?: Method
-  data?: any
-  params?: any
-  headers?: any
-  responseType?: XMLHttpRequestResponseType
-  timeout?: number
-  [propertyName: string]: any
-  transformRequest?: AxiosTransformer | AxiosTransformer[]
-  transformResponse?: AxiosTransformer | AxiosTransformer[]
-  cancelToken?: CancelToken
 }
 
 interface CancelToken {
