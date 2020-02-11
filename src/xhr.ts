@@ -3,6 +3,7 @@ import { parseHeaders } from './helpers/headers'
 import { createError } from './helpers/error'
 import { isURLSameOrigin } from './helpers/url'
 import cookie from './helpers/cookie'
+import { isFormData } from './helpers/utils'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -17,7 +18,9 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       cancelToken,
       withCredentials,
       xsrfCookieName,
-      xsrfHeaderName
+      xsrfHeaderName,
+      onDownloadProgress,
+      onUploadProgress
     } = config
     const request = new XMLHttpRequest()
     if (responseType) {
@@ -68,6 +71,13 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         reject(reason)
       })
     }
+    if (onDownloadProgress) {
+      request.onprogress = onDownloadProgress
+    }
+
+    if (onUploadProgress) {
+      request.upload.onprogress = onUploadProgress
+    }
     request.onerror = function handleError() {
       reject(createError('Network Error', config, null, request))
     }
@@ -88,6 +98,9 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       if (xsrfValue) {
         headers[xsrfHeaderName!] = xsrfValue
       }
+    }
+    if (isFormData(data)) {
+      delete headers['Content-Type']
     }
     request.send(data)
   })
