@@ -3,6 +3,8 @@ import { processHeaders } from './helpers/headers'
 import { transformRequest, transformResponse } from './helpers/data'
 
 const defaults: AxiosRequestConfigWithoutUrl = {
+  baseURL: '',
+
   method: 'get',
 
   timeout: 0,
@@ -28,7 +30,14 @@ const defaults: AxiosRequestConfigWithoutUrl = {
 
   xsrfCookieName: 'XSRF-TOKEN',
 
-  xsrfHeaderName: 'X-XSRF-TOKEN'
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  auth: {
+    key: 'Authorization',
+    value: null,
+    exclusive: null, //exclusive和inclusive都包含某一个url时，exclusive优先级较高
+    inclusive: null
+  }
 }
 
 const methodsNoData = ['delete', 'get', 'head', 'options']

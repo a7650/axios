@@ -16,6 +16,14 @@ function encode(val: string): string {
     .replace(/%5D/gi, ']')
 }
 
+export function isAbsoluteURL(url: string): boolean {
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+}
+
+export function combineURL(baseURL: string, relativeURL?: string): string {
+  return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL
+}
+
 export function buildURL(url: string, params?: any): string {
   if (!params) {
     return url

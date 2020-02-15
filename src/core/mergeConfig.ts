@@ -6,7 +6,7 @@ const strats = Object.create(null)
 
 const defaultStratKeys = ['url', 'params', 'key']
 
-const deepMergeStratKeys = ['headers']
+const deepMergeStratKeys = ['headers', 'auth']
 
 defaultStratKeys.forEach(key => {
   strats[key] = defaultStrat

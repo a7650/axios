@@ -29,6 +29,7 @@ interface AxiosRequestConfigBase {
   xsrfHeaderName?: string
   onDownloadProgress?: (e: ProgressEvent) => void
   onUploadProgress?: (e: ProgressEvent) => void
+  auth?: AxiosRequestConfigAuthType
   [propertyName: string]: any
 }
 
@@ -38,6 +39,13 @@ export interface AxiosRequestConfig extends AxiosRequestConfigBase {
 
 export interface AxiosRequestConfigWithoutUrl extends AxiosRequestConfigBase {
   url?: string
+}
+
+export interface AxiosRequestConfigAuthType {
+  key: string
+  value: null | string | ((param?: any) => string)
+  inclusive: string[] | null
+  exclusive: string[] | null
 }
 
 interface CancelToken {
