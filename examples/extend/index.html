@@ -8,7 +8,27 @@
 
 <body>
     <p>extend</p>
-    <script src="/__build__/extend.js"></script>
+    <!-- <script src="/__build__/extend.js"></script> -->
+    <script>
+
+        setTimeout(() => {
+            console.log(1)
+        }, 0)
+        
+        new Promise(resolve => {
+            console.log(2)
+        })
+
+        new Promise(resolve => {
+            console.log(3)
+            resolve()
+        }).then(resolve => {
+            console.log(4)
+        })
+
+        console.log(5)
+
+    </script>
 </body>
 
 </html>
